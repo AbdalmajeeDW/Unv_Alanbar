@@ -1,0 +1,109 @@
+* {
+  font-family: "Amiri", serif !important;
+}
+
+body {
+  margin: 0;
+  font-family: "Amiri", serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+ul {
+  list-style: none;
+}
+
+.active-link {
+  color: red;
+}
+
+.navBar {
+  padding: 10px;
+  width: 100%;
+}
+.navBar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.navBar .container .IconNav {
+  color: #17A2B8;
+  font-size: 30px;
+  cursor: pointer;
+  display: flex;
+  gap: 50px;
+  align-items: center;
+}
+.navBar .container .IconNav .muirtl-1wjzr1s-MuiButtonBase-root-MuiIconButton-root {
+  color: #17A2B8;
+  font-size: 30px;
+}
+
+.navLink {
+  width: 220px;
+  display: flex;
+}
+.navLink ul {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.navLink ul li {
+  cursor: pointer;
+}
+.navLink ul li .icon {
+  font-size: 20px;
+}
+.navLink ul li .titleLink {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  padding-top: 40px;
+}
+.navLink ul li:hover .title {
+  color: #17A2B8;
+}
+.navLink ul li:hover .icon {
+  color: #17A2B8;
+}
+
+.container .actionsTable {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.container .actionsTable .trashIcon {
+  font-size: 16px;
+  cursor: pointer;
+}
+.container .actionsTable .viewIcon {
+  font-size: 16px;
+  cursor: pointer;
+}
+.container .actionsTable .editIcon {
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.muirtl-wjh20t-MuiPagination-ul {
+  display: flex;
+  justify-content: end;
+  margin-top: 20px !important;
+}
+
+.muirtl-v73c9r-MuiPaper-root-MuiTableContainer-root {
+  margin-top: 20px;
+}/*# sourceMappingURL=main.min.css.map */
