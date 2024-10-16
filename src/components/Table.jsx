@@ -38,7 +38,7 @@ export default function BasicTable({ columns, rows }) {
 
   return (
     <div className="container">
-      <TableContainer aria-rowcount={1} component={Paper} dir="rtl">
+      <TableContainer sx={{ marginTop:5 }} aria-rowcount={1} component={Paper} dir="rtl">
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>

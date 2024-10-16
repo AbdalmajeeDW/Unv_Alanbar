@@ -44,7 +44,7 @@ export default function NavBar() {
             <Tooltip title="تسجيل الخروج">
               <Link to="/login">
                 <IconButton>
-                  <CiLogout />
+                  <CiLogout className="logout"/>
                 </IconButton>
               </Link>
             </Tooltip>

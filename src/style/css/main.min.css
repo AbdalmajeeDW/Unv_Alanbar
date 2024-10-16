@@ -45,7 +45,7 @@ ul {
   gap: 50px;
   align-items: center;
 }
-.navBar .container .IconNav .muirtl-1wjzr1s-MuiButtonBase-root-MuiIconButton-root {
+.navBar .container .IconNav .logout {
   color: #17A2B8;
   font-size: 30px;
 }
@@ -96,14 +96,4 @@ ul {
 .container .actionsTable .editIcon {
   font-size: 16px;
   cursor: pointer;
-}
-
-.muirtl-wjh20t-MuiPagination-ul {
-  display: flex;
-  justify-content: end;
-  margin-top: 20px !important;
-}
-
-.muirtl-v73c9r-MuiPaper-root-MuiTableContainer-root {
-  margin-top: 20px;
 }/*# sourceMappingURL=main.min.css.map */
