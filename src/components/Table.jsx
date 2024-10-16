@@ -6,26 +6,40 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import {  TablePagination } from "@mui/material";
+import { TablePagination } from "@mui/material";
 import { BiSolidTrashAlt } from "react-icons/bi";
 import { MdOutlinePreview } from "react-icons/md";
 import { RiEdit2Fill } from "react-icons/ri";
+import BasicModal from "./BasicModal";
 
 export default function BasicTable({ columns, rows }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [open, setOpen] = React.useState(false);
+  const [modalContent, setModalContent] = React.useState("");
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
+
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
+  const handleOpenModal = (content) => {
+    setModalContent(content);
+    setOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
+
   return (
     <div className="container">
       <TableContainer aria-rowcount={1} component={Paper} dir="rtl">
-        <Table sx={{ minWidth: 650 }} cou aria-label="simple table">
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               {columns.map((col, i) => (
@@ -54,9 +68,21 @@ export default function BasicTable({ columns, rows }) {
                   ))}
                   <TableCell>
                     <div className="actionsTable">
-                      <BiSolidTrashAlt color="red" className="trashIcon" />
-                      <MdOutlinePreview color="#17A2B8" className="viewIcon" />
-                      <RiEdit2Fill color="#17A2B8" className="editIcon" />
+                      <BiSolidTrashAlt
+                        color="red"
+                        className="trashIcon"
+                        onClick={() => handleOpenModal("Delete Action")}
+                      />
+                      <MdOutlinePreview
+                        color="#17A2B8"
+                        className="viewIcon"
+                        onClick={() => handleOpenModal("Preview Action")}
+                      />
+                      <RiEdit2Fill
+                        color="#17A2B8"
+                        className="editIcon"
+                        onClick={() => handleOpenModal("Edit Action")}
+                      />
                     </div>
                   </TableCell>
                 </TableRow>
@@ -65,14 +91,19 @@ export default function BasicTable({ columns, rows }) {
         </Table>
       </TableContainer>
       <TablePagination
-        color="red"
+        component="div"
         dir="rtl"
         page={page}
-        rowsPerPageOptions={[10, 25, 100, 200]}
+        rowsPerPageOptions={[5, 10, 25, 100]}
         count={rows.length}
         rowsPerPage={rowsPerPage}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+      <BasicModal
+        open={open}
+        handleClose={handleCloseModal}
+        content={modalContent}
       />
     </div>
   );
