@@ -2,10 +2,10 @@ import { createTheme } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
 
 const theme = createTheme({
-    direction: 'rtl',
+    direction: 'ltr',
     palette: {
         primary: {
-            main: '#ffff',
+            main: '#17A2B8',
         },
         secondary: {
             main: '#19857b',

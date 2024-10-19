@@ -14,7 +14,7 @@ import BasicModal from "./BasicModal";
 
 export default function BasicTable({ columns, rows }) {
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [open, setOpen] = React.useState(false);
   const [modalContent, setModalContent] = React.useState("");
 
@@ -38,8 +38,8 @@ export default function BasicTable({ columns, rows }) {
 
   return (
     <div className="container">
-      <TableContainer sx={{ marginTop:5 }} aria-rowcount={1} component={Paper} dir="rtl">
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <TableContainer sx={{ marginTop:5 }} aria-rowcount={1} component={Paper} dir="rtl" >
+        <Table sx={{ minWidth: 650 }} aria-label="simple table" >
           <TableHead>
             <TableRow>
               {columns.map((col, i) => (
@@ -51,7 +51,7 @@ export default function BasicTable({ columns, rows }) {
             </TableRow>
           </TableHead>
 
-          <TableBody>
+          <TableBody onLoad={false}>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, rowIndex) => (

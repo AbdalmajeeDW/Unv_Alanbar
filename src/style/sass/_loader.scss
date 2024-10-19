@@ -1,0 +1,11 @@
+.loader{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(233, 227, 227, 0.4);
+    backdrop-filter: blur(7px);
+    height: calc(100vh - 100px) ;
+}
+.MuiCircularProgress-circle	{
+    color: $base-color !important;  
+    }
