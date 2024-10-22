@@ -1,6 +1,6 @@
 import MainLayout from "../layouts/MainLayout";
 import Table from "../components/Table";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchColleges } from "../features/api/colleges";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -10,8 +10,15 @@ import BasicModal from "../components/BasicModal";
 
 export default function Colleges() {
   const [open, setOpen] = React.useState(false);
-  const [modalContent, setModalContent] = React.useState("");
-  const dispatch = useDispatch();
+  const [filters, setFilters] = useState({
+   
+    college: '',
+
+  });
+  const [modalContent, setModalContent] = React.useState({
+    content:null,
+    title:null
+  });  const dispatch = useDispatch();
   const colleges = useSelector((state) => state.colleges.data);
   const collegesSelected = useSelector(
     (state) => state.colleges.collegesSelected
@@ -20,8 +27,9 @@ export default function Colleges() {
 
   const error = useSelector((state) => state.colleges.error);
 
-  const handleOpenModal = (content) => {
-    setModalContent(content);
+  const handleOpenModal = (content,title) => {
+    
+    setModalContent({content:content,title:title});
     setOpen(true);
   };
 
@@ -52,20 +60,23 @@ export default function Colleges() {
         <>
           <div className="container">
             <div className="select">
-              <SelectInput name={"الكلية"} items={collegesSelected} />
+                <SelectInput  name={"الكلية"} items={collegesSelected} onChange={(value) => setFilters({ ...filters, student: value })} />
+
               <div className="Con_btn">
                 <ContainedButtons
                   title="اضافة كلية"
-                  action={() => handleOpenModal("اضافة كلية")}
+                  action={() => handleOpenModal(null,'اضافة كلية')}
+
                 />
               </div>
             </div>
           </div>
-          <Table columns={nameColumn} rows={rows} />
+          <Table columns={nameColumn} rows={rows} type={{titleModalForEdit:'تعديل الكلية',titleModalForView:'تفاصيل الكلية',table:'college'}}/>
           <BasicModal
             open={open}
             handleClose={handleCloseModal}
             content={modalContent}
+            type={'colleges'}
           />
         </>
       )}

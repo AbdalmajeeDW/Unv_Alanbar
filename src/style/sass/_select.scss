@@ -1,16 +1,12 @@
 .container {
+    
     .select {
         direction: rtl;
-        display: flex;
-        align-items: center;
+      display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    // gap: 40px;
     }
 }
 .MuiSelect-select {
     width: 20px;
-}
-.selectInput {
-    height: 30px;
-    display: flex;
-    flex-direction: row-reverse;
-    padding: 0;
 }

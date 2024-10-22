@@ -18,7 +18,6 @@ export default function Sections() {
   const departmentSelected = useSelector(
     (state) => state.department.departmentsSelected
   );
- 
 
   const error = useSelector((state) => state.department.error);
 
@@ -44,13 +43,19 @@ export default function Sections() {
             <div className="select">
               <SelectInput name={"القسم"} items={departmentSelected} />
               <div className="Con_btn">
-                <ContainedButtons
-                  title="اضافة قسم"
-                />
+                <ContainedButtons title="اضافة قسم" />
               </div>
             </div>
           </div>
-          <Table columns={nameColumn} rows={rows} />
+          <Table
+            columns={nameColumn}
+            rows={rows}
+            type={{
+              titleModalForEdit: "تعديل القسم",
+              titleModalForView: "تفاصيل القسم",
+              table:'sections'
+            }}
+          />
         </>
       )}
     </MainLayout>

@@ -1,31 +1,48 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { fetchStudent } from '../api/students';
+import { createSlice } from "@reduxjs/toolkit";
+import { deleteStudentFromAPI, fetchStudent } from "../api/students";
 
 const studentsSlice = createSlice({
-  name: 'students',
+  name: "students",
   initialState: {
     data: [],
-    studentsSelected:[],
-    status: 'idle', 
+    studentsSelected: [],
+    acceptedDateSelected: [],
+    status: "idle",
     error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchStudent.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(fetchStudent.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.data = action.payload;
         state.studentsSelected = state.data.map(
           (student) =>
             `${student.first_name} ${student.second_name} ${student.third_name} ${student.fourth_name}`
         );
+        state.acceptedDateSelected = Array.from(
+          new Set(state.data.map((student) => student.accepted_date))
+        );
       })
       .addCase(fetchStudent.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.error.message;
+      })
+      .addCase(deleteStudentFromAPI.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(deleteStudentFromAPI.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.data = state.data.filter(
+          (student) => student.id !== action.payload
+        );
+      })
+      .addCase(deleteStudentFromAPI.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload || "Failed to delete student";
       });
   },
 });

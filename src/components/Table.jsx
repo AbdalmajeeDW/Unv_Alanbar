@@ -6,29 +6,63 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { TablePagination } from "@mui/material";
+import { Alert, TablePagination } from "@mui/material";
 import { BiSolidTrashAlt } from "react-icons/bi";
 import { MdOutlinePreview } from "react-icons/md";
 import { RiEdit2Fill } from "react-icons/ri";
 import BasicModal from "./BasicModal";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteStudentFromAPI } from "../features/api/students";
+import { deleteCollegeFromAPI } from "../features/api/colleges";
+import { SuccessAllert } from "./Allerts";
+import ConfirmModal from "./ConfirmModal";
+import { BsImages } from "react-icons/bs";
 
-export default function BasicTable({ columns, rows }) {
+export default function BasicTable({ columns, rows, type }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [open, setOpen] = React.useState(false);
-  const [modalContent, setModalContent] = React.useState("");
+  const [modalContent, setModalContent] = React.useState({
+    content: null,
+    title: null,
+  });
+  const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
+  const [isConfirmDelete, setIsConfirmDelete] = React.useState({
+    itemId: null,
+    type: null,
+  });
+
+  const dispatch = useDispatch();
+  const status = useSelector((state) => state.students.status);
+
+  const handleDeleteItem = () => {
+    if (isConfirmDelete.type === "student") {
+      dispatch(deleteStudentFromAPI(isConfirmDelete.itemId));
+      if (status === "succeeded") {
+        alert("test");
+      }
+    } else if (isConfirmDelete.type === "college") {
+      dispatch(deleteCollegeFromAPI(isConfirmDelete.itemId));
+    }
+  };
+  const openConfirmDelete = (item, type) => {
+    setIsConfirmOpen(true);
+    setIsConfirmDelete({ itemId: item, type: type });
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
+  const closeConfirmDelete = () => {
+    setIsConfirmOpen(false);
+  };
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
-  const handleOpenModal = (content) => {
-    setModalContent(content);
+  const handleOpenModal = (content, title) => {
+    setModalContent({ content: content, title: title });
     setOpen(true);
   };
 
@@ -38,8 +72,13 @@ export default function BasicTable({ columns, rows }) {
 
   return (
     <div className="container">
-      <TableContainer sx={{ marginTop:5 }} aria-rowcount={1} component={Paper} dir="rtl" >
-        <Table sx={{ minWidth: 650 }} aria-label="simple table" >
+      <TableContainer
+        sx={{ marginTop: 5 }}
+        aria-rowcount={1}
+        component={Paper}
+        dir="rtl"
+      >
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               {columns.map((col, i) => (
@@ -51,7 +90,7 @@ export default function BasicTable({ columns, rows }) {
             </TableRow>
           </TableHead>
 
-          <TableBody onLoad={false}>
+          <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, rowIndex) => (
@@ -63,7 +102,22 @@ export default function BasicTable({ columns, rows }) {
                       component="td"
                       scope="row"
                     >
-                      {row[col.key]}
+                      {col.key === "image" ? (
+                        row[col.key] ? (
+                          <img
+                            width={75}
+                            style={{ borderRadius: "5px" }}
+                            src={`https://anbar-api.akwad4it.com/${
+                              row[col.key]
+                            }`}
+                            alt="Image"
+                          />
+                        ) : (
+                          <BsImages size={40} color="#17A2B8" />
+                        )
+                      ) : (
+                        row[col.key]
+                      )}
                     </TableCell>
                   ))}
                   <TableCell>
@@ -71,17 +125,21 @@ export default function BasicTable({ columns, rows }) {
                       <BiSolidTrashAlt
                         color="red"
                         className="trashIcon"
-                        onClick={() => handleOpenModal("Delete Action")}
+                        onClick={() => openConfirmDelete(row.id, type.table)}
                       />
                       <MdOutlinePreview
                         color="#17A2B8"
                         className="viewIcon"
-                        onClick={() => handleOpenModal("Preview Action")}
+                        onClick={() =>
+                          handleOpenModal(row, type.titleModalForView)
+                        }
                       />
                       <RiEdit2Fill
                         color="#17A2B8"
                         className="editIcon"
-                        onClick={() => handleOpenModal("Edit Action")}
+                        onClick={() =>
+                          handleOpenModal(row, type.titleModalForEdit)
+                        }
                       />
                     </div>
                   </TableCell>
@@ -100,11 +158,20 @@ export default function BasicTable({ columns, rows }) {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-      <BasicModal
-        open={open}
-        handleClose={handleCloseModal}
-        content={modalContent}
+      <ConfirmModal
+        open={isConfirmOpen}
+        handleClose={closeConfirmDelete}
+        onConfirm={handleDeleteItem}
+        title="تأكيد الحذف"
+        content="هل أنت متأكد من أنك تريد حذف هذا السطر؟"
       />
+      {modalContent.content && modalContent.title != null && (
+        <BasicModal
+          open={open}
+          handleClose={handleCloseModal}
+          content={modalContent}
+        />
+      )}
     </div>
   );
 }

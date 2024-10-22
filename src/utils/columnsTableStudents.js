@@ -1,4 +1,8 @@
-export const formattedStudents = (students)=> students.map((student) => ({
+export const formattedStudents = (students)=> students.map((student) => (
+  
+  {
+ 
+  
     ...student,
     fullName: `${student.first_name} ${student.second_name} ${student.third_name} ${student.fourth_name}`,
     collgesName: student.college.name,
